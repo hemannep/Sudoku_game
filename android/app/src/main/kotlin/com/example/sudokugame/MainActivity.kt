@@ -1,4 +1,4 @@
-package com.example.sudokugame
+package com.mangojuice.soduko
 
 import io.flutter.embedding.android.FlutterActivity
 

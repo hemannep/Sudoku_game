@@ -63,6 +63,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '398706858243',
     projectId: 'soduko-37e37',
     storageBucket: 'soduko-37e37.firebasestorage.app',
-    iosBundleId: 'com.example.sudokugame',
+    iosBundleId: 'com.mangojuice.soduko',
   );
 }

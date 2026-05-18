@@ -38,6 +38,21 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await MobileAds.instance.initialize();
 
+  // Register physical test devices in debug builds so any accidental ad
+  // impressions during development are flagged as test traffic and never
+  // count against the real AdMob account. Production builds skip this
+  // block entirely, so real users see real ads.
+  if (kDebugMode) {
+    await MobileAds.instance.updateRequestConfiguration(
+      RequestConfiguration(
+        testDeviceIds: [
+          '9820951C5C02C0EBA6BFCFF938F764E5', // Xiaomi 23090RA98G
+          '7CF5B40F416BBCF58758B55215C352D5', // POCO F1
+        ],
+      ),
+    );
+  }
+
   // Capture the singleton once — init() and the provider must share
   // the exact same instance, otherwise dark-mode state is lost.
   final appSettings = AppSettings();

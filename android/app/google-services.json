@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:398706858243:android:83e470958d8edc14dc3136",
+        "mobilesdk_app_id": "1:398706858243:android:f64c366e10d04b10dc3136",
         "android_client_info": {
-          "package_name": "com.example.sudokugame"
+          "package_name": "com.mangojuice.soduko"
         }
       },
       "oauth_client": [],
