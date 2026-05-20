@@ -17,7 +17,13 @@ class RewardedAdHelper {
     try {
       await RewardedAd.load(
         adUnitId: AdUnitIds.rewardedAdId,
-        request: const AdRequest(),
+        request: const AdRequest(
+          nonPersonalizedAds: true,
+          extras: {
+            'tag_for_child_directed_treatment': '1',
+            'tag_for_under_age_of_consent': '1'
+          },
+        ),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
           onAdLoaded: (ad) {
             _rewardedAd = ad;

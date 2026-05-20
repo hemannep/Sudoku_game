@@ -38,13 +38,36 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await MobileAds.instance.initialize();
 
+  // ── Families Policy compliance ──────────────────────────────────────────────
+  // This app targets children, so ALL ad requests must be child-directed.
+  // tagForChildDirectedTreatment → serves only child-safe ads (COPPA)
+  // tagForUnderAgeOfConsent      → GDPR compliance for users under age
+  // maxAdContentRating: g        → most restrictive content filter (G-rated)
+  // Applied globally here so every ad unit inherits these settings automatically.
+  await MobileAds.instance.updateRequestConfiguration(
+    RequestConfiguration(
+      tagForChildDirectedTreatment: TagForChildDirectedTreatment.yes,
+      tagForUnderAgeOfConsent: TagForUnderAgeOfConsent.yes,
+      maxAdContentRating: MaxAdContentRating.g,
+    ),
+  );
+
+  // ── Debug test devices ──────────────────────────────────────────────────────
   // Register physical test devices in debug builds so any accidental ad
   // impressions during development are flagged as test traffic and never
   // count against the real AdMob account. Production builds skip this
   // block entirely, so real users see real ads.
+  //
+  // NOTE: updateRequestConfiguration is called a second time here to LAYER IN
+  // the testDeviceIds on top of the Families Policy settings already applied
+  // above. The SDK merges the two calls — the child-directed flags set above
+  // remain in effect; only testDeviceIds is added in debug mode.
   if (kDebugMode) {
     await MobileAds.instance.updateRequestConfiguration(
       RequestConfiguration(
+        tagForChildDirectedTreatment: TagForChildDirectedTreatment.yes,
+        tagForUnderAgeOfConsent: TagForUnderAgeOfConsent.yes,
+        maxAdContentRating: MaxAdContentRating.g,
         testDeviceIds: [
           '9820951C5C02C0EBA6BFCFF938F764E5', // Xiaomi 23090RA98G
           '7CF5B40F416BBCF58758B55215C352D5', // POCO F1
